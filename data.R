@@ -14,7 +14,7 @@ flights <- read.table("bootstrap/data/flights.dat", header=TRUE)
 
 ## Convert degrees to numbers
 cities$Latitude <- deg2num(cities$Latitude)
-cities$Longitude <- deg2num(cities$Latitude)
+cities$Longitude <- deg2num(cities$Longitude)
 
 ## Save as TAF tables
 write.taf(cities, dir="data")
