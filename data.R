@@ -4,7 +4,7 @@
 ## After:  cities.csv, flights.csv (data)
 
 library(TAF)
-library(gmt)  # deg2num, geodist
+library(gmt)  # deg2num
 
 mkdir("data")
 
