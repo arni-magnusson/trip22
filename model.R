@@ -1,9 +1,10 @@
 ## Run analysis, write model results
 
 ## Before: cities.csv, flights.csv (data)
-## After:  flights.csv (model)
+## After:  cities.csv, flights.csv (model)
 
 library(TAF)
+library(gmt)  # geodist
 
 mkdir("model")
 
@@ -22,5 +23,14 @@ flights$Distance <- round(geodist(Nfrom, Efrom, Nto, Eto))
 flights$Value <- round(flights$Distance / flights$Cost)
 flights$Speed <- round(flights$Distance / deg2num(flights$Duration), -1)
 
+## Move selected cities 360 degrees
+return <- cities$Airport %in% c("ICN", "HAN", "SGN", "SYD", "HBA", "BNE")
+cities$Longitude[return] <- cities$Longitude[return] - 360
+
+## Create Noumea to return to
+cities <- rbind(cities, cities[cities$City == "Noumea",])
+cities$Longitude[nrow(cities)] <- cities$Longitude[nrow(cities)] - 360
+
 ## Write results
+write.taf(cities, dir="model")
 write.taf(flights, dir="model")
