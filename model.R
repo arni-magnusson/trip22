@@ -36,7 +36,7 @@ flights$Eto[flights$To %in% c(return,"NOU")] <-
 cities <- rbind(cities, cities[cities$City == "Noumea",])
 cities$Longitude[nrow(cities)] <- cities$Longitude[nrow(cities)] - 360
 
-## Calculate layover
+## Calculate flight layover
 connecting <- c(flights$Date[-1] == flights$ArriveDate[-nrow(flights)], FALSE)
 layover <- num2deg(c(deg2num(flights$TakeOff[-1]) -
                      deg2num(flights$Landing[-nrow(flights)]), 0), zero=TRUE)
@@ -57,6 +57,10 @@ airbnb$Depart[airbnb$City=="Athens"] <-
 airbnb <- unique(airbnb)
 airbnb$Stay <- as.integer(as.Date(airbnb$Depart) - as.Date(airbnb$Arrive))
 airbnb <- airbnb[c("Arrive", "City", "Stay")]
+
+## Indicate whether we overnight in a city
+cities$Overnight <- cities$City %in% airbnb$City
+cities$Overnight[cities$City == "Noumea"] <- TRUE
 
 ## Write results
 write.taf(airbnb, dir="model")
