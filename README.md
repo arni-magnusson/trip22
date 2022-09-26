@@ -1,2 +1,1 @@
-# trip
-There and Back Again
+[https://arni-magnusson.github.io/trip](https://arni-magnusson.github.io/trip)
