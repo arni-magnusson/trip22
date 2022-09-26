@@ -5,7 +5,7 @@
 
 library(TAF)
 
-mkdir("data")
+mkdir("report")
 
 ## Read tables
 airbnb <- read.taf("output/airbnb.csv")
@@ -26,5 +26,5 @@ names(flights)[names(flights)=="TakeOff"] <- "Departure"
 names(flights)[names(flights)=="Landing"] <- "Arrival"
 
 ## Save as TAF tables
-write.taf(airbnb, dir="data")
-write.taf(flights, dir="data")
+write.taf(airbnb, dir="report")
+write.taf(flights, dir="report")
