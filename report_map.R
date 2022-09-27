@@ -37,7 +37,7 @@ drawmap <- function()
   points(Latitude~Longitude, cities, subset=Airport %in% c("ICN","SGN"),
          pch=21, cex=2, bg="olivedrab4")
   points(c(-125,-125), c(-38,-44), pch=21, cex=1.5, bg=c("red3","olivedrab4"))
-  text(c(-120,-120), c(-38,-44), c("explore","connect"), adj=0)
+  text(c(-120,-120), c(-38,-44), c("explore","connect"), adj=0, cex=0.8)
   box()
 }
 
