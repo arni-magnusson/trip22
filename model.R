@@ -1,7 +1,7 @@
 ## Run analysis, write model results
 
 ## Before: cities.csv, flights.csv (data)
-## After:  airbnb.csv, cities.csv, flights.csv (model)
+## After:  cities.csv, flights.csv (model)
 
 library(TAF)
 library(gmt)  # deg2num, geodist
@@ -24,17 +24,25 @@ flights$Value <- round(flights$Distance / flights$Cost)
 flights$Speed <- round(flights$Distance / deg2num(flights$Duration), -1)
 
 ## Move selected cities 360 degrees
-return <- c("ICN", "HAN", "SGN", "SYD", "HBA", "BNE")
-cities$Longitude[cities$Airport %in% return] <-
-  cities$Longitude[cities$Airport %in% return] - 360
-flights$Efrom[flights$From %in% return] <-
-  flights$Efrom[flights$From %in% return] - 360
-flights$Eto[flights$To %in% c(return,"NOU")] <-
-  flights$Eto[flights$To %in% c(return,"NOU")] - 360
+homebound <- c("ICN", "HAN", "SGN", "SYD", "HBA", "BNE")
+cities$Longitude[cities$Airport %in% homebound] <-
+  cities$Longitude[cities$Airport %in% homebound] - 360
+flights$Efrom[flights$From %in% homebound] <-
+  flights$Efrom[flights$From %in% homebound] - 360
+flights$Eto[flights$To %in% c(homebound,"NOU")] <-
+  flights$Eto[flights$To %in% c(homebound,"NOU")] - 360
 
 ## Create a second Noumea to return to
 cities <- rbind(cities, cities[cities$City == "Noumea",])
 cities$Longitude[nrow(cities)] <- cities$Longitude[nrow(cities)] - 360
+
+# Calculate nights in each city
+cities$Arrive <- flights$ArriveDate[match(cities$Airport, flights$To)]
+cities$Depart <- flights$Date[match(cities$Airport, flights$From)]
+cities$Arrive[1] <- min(cities$Arrive)             # Noumea start
+cities$Depart[nrow(cities)] <- max(cities$Depart)  # Noumea end
+cities$Depart[cities$City=="Athens"] <- "2022-12-18"  # Athens
+cities$Stay <- as.integer(as.Date(cities$Depart) - as.Date(cities$Arrive))
 
 ## Calculate flight layover
 connecting <- c(flights$Date[-1] == flights$ArriveDate[-nrow(flights)], FALSE)
@@ -43,26 +51,6 @@ layover <- num2deg(c(deg2num(flights$TakeOff[-1]) -
 layover <- sub(":00$", "", layover)
 flights$Layover <- ifelse(connecting, layover, "")
 
-## Airbnb table (based on flights)
-airbnb <- data.frame(
-  Arrive=head(flights$ArriveDate, -1),
-  City=head(cities$City[match(flights$To, cities$Airport)], -1),
-  Depart=flights$Date[-1])
-airbnb <- airbnb[airbnb$Arrive != airbnb$Depart,]
-## One Athens booking rather than two
-airbnb$Arrive[airbnb$City=="Athens"] <-
-  min(airbnb$Arrive[airbnb$City=="Athens"])
-airbnb$Depart[airbnb$City=="Athens"] <-
-  max(airbnb$Depart[airbnb$City=="Athens"])
-airbnb <- unique(airbnb)
-airbnb$Stay <- as.integer(as.Date(airbnb$Depart) - as.Date(airbnb$Arrive))
-airbnb <- airbnb[c("Arrive", "City", "Stay")]
-
-## Indicate whether we overnight in a city
-cities$Overnight <- cities$City %in% airbnb$City
-cities$Overnight[cities$City == "Noumea"] <- TRUE
-
 ## Write results
-write.taf(airbnb, dir="model")
 write.taf(cities, dir="model")
 write.taf(flights, dir="model")
