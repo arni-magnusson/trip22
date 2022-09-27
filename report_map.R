@@ -30,9 +30,14 @@ drawmap <- function()
   map <- lapply(split(world2, world2$group), polygon, border="white", lwd=0.4,
                 col="olivedrab4")
   with(flights, segments(Efrom, Nfrom, Eto, Nto, lwd=1.5))
-  points(Latitude~Longitude, cities, subset=Overnight, pch=16, cex=2, col="red3")
-  points(Latitude~Longitude, cities, subset=!Overnight, pch=16, cex=2,
-         col="darkgray")
+  points(Latitude~Longitude, cities, subset=Stay > 0,
+         pch=21, cex=2, bg="red3")
+  points(Latitude~Longitude, cities, subset=Airport %in% c("NOU","NRT","DXB"),
+         pch=21, cex=2, bg="red3")
+  points(Latitude~Longitude, cities, subset=Airport %in% c("ICN","SGN"),
+         pch=21, cex=2, bg="olivedrab4")
+  points(c(-125,-125), c(-38,-44), pch=21, cex=1.5, bg=c("red3","olivedrab4"))
+  text(c(-120,-120), c(-38,-44), c("explore","connect"), adj=0)
   box()
 }
 
