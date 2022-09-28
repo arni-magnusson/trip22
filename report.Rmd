@@ -1,0 +1,28 @@
+---
+title: ""
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE)
+source("utilities.R")  # drawmap
+library(TAF)
+```
+
+```{r, fig.width=14, fig.height=5}
+cities <- read.taf("output/cities.csv")
+flights <- read.taf("output/flights.csv")
+drawmap(flights, cities)
+```
+
+```{r}
+flights <- read.taf("report/flights.csv")
+knitr::kable(flights)
+```
+
+```{r}
+cities <- read.taf("report/cities.csv")
+knitr::kable(cities)
+```
