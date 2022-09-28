@@ -1,7 +1,7 @@
 library(ggplot2)  # map_data
 library(maps)     # world
 
-drawmap <- function(world2, flights, cities)
+drawmap <- function(flights, cities)
 {
   ## Read world coordinates from 'maps' package, using ggplot2 tools
   world <- map_data("world")
