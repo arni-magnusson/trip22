@@ -1,4 +1,4 @@
-## Make map and tables available in www folder
+## Produce index.html and supporting files
 
 ## Before: template.html, trip.css (bootstrap/software),
 #          cities.csv, flights.csv, map.svg (report)
@@ -24,3 +24,4 @@ tab.cities <- taf2html(cities, file="index.html", append=TRUE,
                        align=c("R","L","L"))
 bottom <- '<p><a href="https://github.com/arni-magnusson/trip">source</a>\n'
 cat(bottom, file="index.html", append=TRUE)
+dos2unix("index.html")
