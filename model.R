@@ -24,7 +24,7 @@ flights$Value <- round(flights$Distance / flights$Cost)
 flights$Speed <- round(flights$Distance / deg2num(flights$Duration), -1)
 
 ## Move selected cities 360 degrees
-homebound <- c("ICN", "HAN", "SGN", "SYD", "HBA", "BNE")
+homebound <- tail(cities$Airport, -which(cities$Airport=="SEA"))
 cities$Longitude[cities$Airport %in% homebound] <-
   cities$Longitude[cities$Airport %in% homebound] - 360
 flights$Efrom[flights$From %in% homebound] <-
@@ -42,6 +42,7 @@ cities$Depart <- flights$Date[match(cities$Airport, flights$From)]
 cities$Arrive[1] <- min(cities$Arrive)             # Noumea start
 cities$Depart[nrow(cities)] <- max(cities$Depart)  # Noumea end
 cities$Depart[cities$City=="Athens"] <- "2022-12-18"  # Athens
+cities$Depart[cities$City=="Hanoi"] <- "2023-01-12"   # Hanoi
 cities$Stay <- as.integer(as.Date(cities$Depart) - as.Date(cities$Arrive))
 
 ## Calculate flight layover
