@@ -12,10 +12,10 @@ mkdir("report")
 cities <- read.taf("output/cities.csv")
 flights <- read.taf("output/flights.csv")
 
-pdf("report/map.pdf", width=14, height=5)
+pdf("report/map.pdf", width=12, height=4.5)
 drawmap(flights, cities)
 dev.off()
 
-svg("report/map.svg", width=14, height=5)
+svg("report/map.svg", width=12, height=4.5)
 drawmap(flights, cities)
 dev.off()
