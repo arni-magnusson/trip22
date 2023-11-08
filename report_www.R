@@ -1,6 +1,6 @@
 ## Produce index.html and supporting files
 
-## Before: template.html, trip.css (bootstrap/software),
+## Before: template.html, trip.css (boot/software),
 #          cities.csv, flights.csv, map.svg (report)
 ## After:  index.html (root), map.svg, trip.css (www)
 
@@ -13,8 +13,8 @@ cities <- read.taf("report/cities.csv")
 flights <- read.taf("report/flights.csv")
 
 ## Copy files
-cp("bootstrap/software/trip.css", "www")
-cp("bootstrap/software/template.html", "index.html")
+cp("boot/software/trip.css", "www")
+cp("boot/software/template.html", "index.html")
 cp("report/map.svg", "www")
 
 ## Add tables and link

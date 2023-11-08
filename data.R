@@ -1,6 +1,6 @@
 ## Preprocess data, write TAF data tables
 
-## Before: cities.dat, flights.dat (bootstrap/data)
+## Before: cities.dat, flights.dat (boot/data)
 ## After:  cities.csv, flights.csv (data)
 
 library(TAF)
@@ -9,8 +9,8 @@ library(gmt)  # deg2num
 mkdir("data")
 
 ## Read tables
-cities <- read.table("bootstrap/data/cities.dat", header=TRUE)
-flights <- read.table("bootstrap/data/flights.dat", header=TRUE)
+cities <- read.table("boot/data/cities.dat", header=TRUE)
+flights <- read.table("boot/data/flights.dat", header=TRUE)
 
 ## Convert degrees to numbers
 cities$Latitude <- deg2num(cities$Latitude)
