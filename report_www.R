@@ -22,6 +22,6 @@ tab.flights <- taf2html(flights, file="index.html", append=TRUE,
                         align=c("R","R","L","L","L","L","R"))
 tab.cities <- taf2html(cities, file="index.html", append=TRUE,
                        align=c("R","L","L"))
-bottom <- '<p><a href="https://github.com/arni-magnusson/trip">source</a>\n'
+bottom <- '<p><a href="https://github.com/arni-magnusson/trip22">source</a>\n'
 cat(bottom, file="index.html", append=TRUE)
 dos2unix("index.html")
